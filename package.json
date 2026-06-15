@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/yewinthlaing04/javascript-test#readme",
   "dependencies": {
+    "cypress": "^15.17.0",
     "express": "^5.2.1",
     "vitest": "^4.1.9"
   }
