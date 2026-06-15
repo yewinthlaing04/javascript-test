@@ -1,40 +1,60 @@
-import { describe, it, expect } from "vitest";
+import { test, expect } from "vitest";
 import { add } from "../src/stringCalculator.js";
 
-describe("String Calculator", () => {
-  it("returns 0 for empty string", () => {
-    expect(add("")).toBe(0);
-  });
+test("returns 0 for empty string", () => {
+  expect(add("")).toBe(0);
+});
 
-  it("adds numbers", () => {
-    expect(add("1,2")).toBe(3);
-  });
+test("returns the number itself", () => {
+  expect(add("1")).toBe(1);
+});
 
-  it("handles new lines", () => {
-    expect(add("1\n2,3")).toBe(6);
-  });
+test("adds two comma separated numbers", () => {
+  expect(add("1,2")).toBe(3);
+});
 
-  it("supports custom delimiter", () => {
-    expect(add("//;\n1;2")).toBe(3);
-  });
+test("adds multiple numbers", () => {
+  expect(add("1,2,3,4")).toBe(10);
+});
 
-  it("throws exception with negatives", () => {
-    expect(() => add("1,-2,-3")).toThrow("negative numbers not allowed -2,-3");
-  });
+test("handles new line separators", () => {
+  expect(add("1\n2,3")).toBe(6);
+});
 
-  it("ignores numbers > 1000", () => {
-    expect(add("1,1001")).toBe(1);
-  });
+test("supports custom delimiter", () => {
+  expect(add("//;\n1;2")).toBe(3);
+});
 
-  it("supports long delimiters", () => {
-    expect(add("//[***]\n1***2***3")).toBe(6);
-  });
+test("throws exception for one negative number", () => {
+  expect(() => add("1,-2")).toThrow("negative numbers not allowed -2");
+});
 
-  it("supports multiple delimiters", () => {
-    expect(add("//[*][%]\n1*2%3")).toBe(6);
-  });
+test("throws exception with all negative numbers", () => {
+  expect(() => add("1,-2,-3,-4")).toThrow(
+    "negative numbers not allowed -2,-3,-4",
+  );
+});
 
-  it("supports multiple long delimiters", () => {
-    expect(add("//[**][%%]\n1**2%%3")).toBe(6);
-  });
+test("ignores numbers greater than 1000", () => {
+  expect(add("1,2,1001")).toBe(3);
+});
+
+test("keeps 1000 in calculation", () => {
+  expect(add("2,1000")).toBe(1002);
+});
+
+test("supports delimiter with multiple characters", () => {
+  expect(add("//[***]\n1***2***3")).toBe(6);
+});
+
+test("supports multiple delimiters", () => {
+  expect(add("//[*][%]\n1*2%3")).toBe(6);
+});
+
+test("supports multiple long delimiters", () => {
+  expect(add("//[**][%%]\n1**2%%3")).toBe(6);
+});
+
+test("supports multiple long delimiters with different lengths", () => {
+  expect(add("//[***][#]\n1***2#3")).toBe(6);
 });
